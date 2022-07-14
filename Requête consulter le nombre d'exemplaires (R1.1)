@@ -1,0 +1,3 @@
+SELECT *
+FROM livre INNER JOIN exemplaire
+ON livre.isbn = exemplaire.isbn

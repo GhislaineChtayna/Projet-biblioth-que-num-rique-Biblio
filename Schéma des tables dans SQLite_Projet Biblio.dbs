@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Sqlite" id="Project-72c" database="Sqlite" >
+	<schema name="Default" >
+		<table name="auteur" spec="" >
+			<column name="id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="nom" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="prenom" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_auteur" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="bibliothèque" spec="" >
+			<column name="nom" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<index name="pk_bibliothèque" unique="PRIMARY_KEY" >
+				<column name="nom" />
+			</index>
+		</table>
+		<table name="description" spec="" >
+			<column name="id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="titre" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_description" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="editeur" spec="" >
+			<column name="id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="nom" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_editeur" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="exemplaire" spec="" >
+			<column name="ide" type="INTEGER" jt="4" mandatory="y" />
+			<column name="isbn" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="bibliothèque" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<index name="pk_exemplaire" unique="PRIMARY_KEY" >
+				<column name="ide" />
+			</index>
+			<fk name="Fk" to_schema="Default" to_table="livre" options="" >
+				<fk_column name="isbn" pk="isbn" />
+			</fk>
+			<fk name="Fk" to_schema="Default" to_table="bibliothèque" options="" >
+				<fk_column name="bibliothèque" pk="nom" />
+			</fk>
+		</table>
+		<table name="genre" spec="" >
+			<column name="nom" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<index name="pk_genre" unique="PRIMARY_KEY" >
+				<column name="nom" />
+			</index>
+		</table>
+		<table name="langue" spec="" >
+			<column name="nom" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<index name="pk_langue" unique="PRIMARY_KEY" >
+				<column name="nom" />
+			</index>
+		</table>
+		<table name="livre" spec="" >
+			<column name="isbn" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="titre" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="editeur_id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="date_publication" type="DATE" jt="91" mandatory="y" />
+			<column name="description_id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="langue" type="VARCHAR" length="50" jt="12" mandatory="y" />
+			<index name="pk_livre" unique="PRIMARY_KEY" >
+				<column name="isbn" />
+			</index>
+			<fk name="Fk" to_schema="Default" to_table="editeur" options="" >
+				<fk_column name="editeur_id" pk="id" />
+			</fk>
+			<fk name="Fk" to_schema="Default" to_table="description" options="" >
+				<fk_column name="description_id" pk="id" />
+			</fk>
+			<fk name="Fk" to_schema="Default" to_table="langue" options="" >
+				<fk_column name="langue" pk="nom" />
+			</fk>
+		</table>
+		<table name="livre_auteur" spec="" >
+			<column name="isbn" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="auteur_id" type="INTEGER" jt="4" mandatory="y" />
+			<fk name="Fk" to_schema="Default" to_table="livre" options="" >
+				<fk_column name="isbn" pk="isbn" />
+			</fk>
+			<fk name="Fk" to_schema="Default" to_table="auteur" options="" >
+				<fk_column name="auteur_id" pk="id" />
+			</fk>
+		</table>
+		<table name="livre_genre" spec="" >
+			<column name="isbn" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="nom" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<fk name="Fk" to_schema="Default" to_table="livre" options="" >
+				<fk_column name="isbn" pk="isbn" />
+			</fk>
+			<fk name="Fk" to_schema="Default" to_table="genre" options="" >
+				<fk_column name="nom" pk="nom" />
+			</fk>
+		</table>
+		<table name="paragraphe" spec="" >
+			<column name="description_id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="ordre" type="INTEGER" jt="4" mandatory="y" />
+			<column name="texte" type="VARCHAR" jt="12" mandatory="y" />
+			<fk name="Fk" to_schema="Default" to_table="description" options="" >
+				<fk_column name="description_id" pk="id" />
+			</fk>
+		</table>
+		<table name="pret" spec="" >
+			<column name="id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="date_debut" type="DATE" jt="91" mandatory="y" />
+			<column name="date_fin" type="VARCHAR" jt="12" />
+			<column name="renouvele" type="BOOLEAN" jt="-7" mandatory="y" />
+			<column name="utilisateur_id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="exemplaire_id" type="INTEGER" jt="4" mandatory="y" />
+			<index name="pk_pret" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="Fk" to_schema="Default" to_table="utilisateur" options="" >
+				<fk_column name="utilisateur_id" pk="id" />
+			</fk>
+			<fk name="Fk" to_schema="Default" to_table="exemplaire" options="" >
+				<fk_column name="exemplaire_id" pk="ide" />
+			</fk>
+		</table>
+		<table name="utilisateur" spec="" >
+			<column name="id" type="INTEGER" jt="4" mandatory="y" />
+			<column name="email" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="nom" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="prenom" type="VARCHAR" length="100" jt="12" />
+			<column name="mdp" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="sel" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<index name="pk_utilisateur" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<connector name="Sqlite" database="Sqlite" driver_class="org.sqlite.JDBC" driver_jar="sqlite-jdbc-3.36.0.3.jar" driver_desc="Standard" host="localhost" port="7210" instance="C:/Users/ghisl/Documents/Biblio/Biblio_SQLite.db" />
+	<layout name="Main Layout" id="Layout-113b" show_relation="columns" >
+		<entity schema="Default" name="auteur" color="BED3F4" x="624" y="192" />
+		<entity schema="Default" name="bibliothèque" color="C7F4BE" x="832" y="384" />
+		<entity schema="Default" name="description" color="BED3F4" x="208" y="432" />
+		<entity schema="Default" name="editeur" color="BED3F4" x="48" y="432" />
+		<entity schema="Default" name="exemplaire" color="C7F4BE" x="832" y="192" />
+		<entity schema="Default" name="genre" color="BED3F4" x="608" y="432" />
+		<entity schema="Default" name="langue" color="BED3F4" x="48" y="272" />
+		<entity schema="Default" name="livre" color="BED3F4" x="208" y="192" />
+		<entity schema="Default" name="livre_auteur" color="BED3F4" x="432" y="192" />
+		<entity schema="Default" name="livre_genre" color="BED3F4" x="432" y="432" />
+		<entity schema="Default" name="paragraphe" color="BED3F4" x="384" y="608" />
+		<entity schema="Default" name="pret" color="C7F4BE" x="1040" y="192" />
+		<entity schema="Default" name="utilisateur" color="C7F4BE" x="1248" y="192" />
+		<callout x="208" y="80" pointer="Round" >
+			<comment><![CDATA[This is a layout - a diagram with tools. 
+Add tables by drag and drop from the project structure tree. 
+For a better understanding of the schema, create multiple layouts with the same or different tables. 
+Double-click table headers, columns, or foreign keys to edit. 
+Drop this callout from its right-click popup menu.]]></comment>
+		</callout>
+		<group name="exemplaire" color="EEF7EC" >
+			<entity schema="Default" name="exemplaire" />
+			<entity schema="Default" name="pret" />
+			<entity schema="Default" name="bibliothèque" />
+			<entity schema="Default" name="utilisateur" />
+		</group>
+		<group name="livre" color="ECF0F7" >
+			<entity schema="Default" name="livre" />
+			<entity schema="Default" name="livre_auteur" />
+			<entity schema="Default" name="livre_genre" />
+			<entity schema="Default" name="description" />
+			<entity schema="Default" name="auteur" />
+			<entity schema="Default" name="editeur" />
+			<entity schema="Default" name="genre" />
+			<entity schema="Default" name="langue" />
+			<entity schema="Default" name="paragraphe" />
+		</group>
+	</layout>
+	<layout name="~Layout with Sample Tools" id="Layout-fe6" show_column_type="y" show_relation="columns" >
+		<entity schema="Default" name="auteur" color="BED3F4" x="784" y="48" />
+		<entity schema="Default" name="bibliothèque" color="C7F4BE" x="1072" y="240" />
+		<entity schema="Default" name="description" color="BED3F4" x="288" y="288" />
+		<entity schema="Default" name="editeur" color="BED3F4" x="48" y="288" />
+		<entity schema="Default" name="exemplaire" color="C7F4BE" x="1072" y="48" />
+		<entity schema="Default" name="genre" color="BED3F4" x="784" y="288" />
+		<entity schema="Default" name="langue" color="BED3F4" x="48" y="128" />
+		<entity schema="Default" name="livre" color="BED3F4" x="288" y="48" />
+		<entity schema="Default" name="livre_auteur" color="BED3F4" x="544" y="48" />
+		<entity schema="Default" name="livre_genre" color="BED3F4" x="544" y="288" />
+		<entity schema="Default" name="paragraphe" color="BED3F4" x="528" y="464" />
+		<entity schema="Default" name="pret" color="C7F4BE" x="1344" y="48" />
+		<entity schema="Default" name="utilisateur" color="C7F4BE" x="1600" y="48" />
+		<script name="SQL Editor" id="Editor-2277" language="SQL" >
+			<string><![CDATA[SELECT isbn, titre, editeur_id, date_publication, description_id, langue
+FROM
+	livre e;]]></string>
+		</script>
+		<browser id="Browse-2018" name="Relational Data Explorer" confirm_updates="y" >
+			<browse_table schema="Default" entity="livre" x="20" y="20" width="400" height="300" >
+				<browse_table schema="Default" entity="exemplaire" fk="Fk" x="440" y="20" width="500" height="350" >
+					<browse_table schema="Default" entity="pret" fk="Fk" x="960" y="20" width="500" height="350" />
+				</browse_table>
+			</browse_table>
+		</browser>
+		<query id="Query-e01" name="Query Builder" >
+			<query_table schema="Default" name="livre" alias="l" x="48" y="48" >
+				<column name="isbn" />
+				<column name="titre" />
+				<column name="editeur_id" />
+				<column name="date_publication" />
+				<column name="description_id" />
+				<column name="langue" />
+				<query_table schema="Default" name="exemplaire" alias="e" x="240" y="48" fk="Fk" type="Inner Join" >
+					<column name="ide" />
+					<column name="isbn" />
+					<column name="bibliothèque" />
+					<query_table schema="Default" name="pret" alias="p" x="416" y="48" fk="Fk" type="Inner Join" >
+						<column name="id" />
+						<column name="date_debut" />
+						<column name="date_fin" />
+						<column name="renouvele" />
+						<column name="utilisateur_id" />
+						<column name="exemplaire_id" />
+					</query_table>
+				</query_table>
+			</query_table>
+		</query>
+		<form name="Report" id="Report-bad" template="Page" css="container-fluid" view="frame" >
+			<var name="samplePageNumber" type="4" value="0" mandatory="n" />
+			<var name="sampleRecordsPerPage" type="4" value="100" mandatory="n" />
+			<body name="Body" template="Grid" pos="0,0,0,0,f,f" layout="{{-2,-2,-2,-2,-1},{-2,-2,-2,-2}}" scroll="n" html="n" >
+				<cell type="label" name="Livre Data" template="H3" pos="0,0,1,0,l,c" />
+				<cell type="chart" name="Pie" template="Pie" pos="0,1,4,1,l,c" max_records="20" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="isbn" />
+						<var name="titre" />
+						<var name="editeur_id" type="4" />
+						<var name="date_publication" type="91" />
+						<var name="description_id" type="4" />
+						<var name="langue" />
+						<script ><![CDATA[SELECT * FROM livre]]></script>
+					</form_script>
+					<param name="i0" value="langue" />
+					<param name="width" value="100%" />
+					<param name="v0" value="description_id" />
+					<param name="title" value="Sample Chart" />
+					<param name="height" value="400px" />
+				</cell>
+				<tableview name="sample" template="Table" css="table table-striped table-sm table-hover" pos="0,2,4,2,f,f" layout="{{-2,-2,-2,-2,-2,-2,-2},{-2,-2}}" scroll="n" html="n" header_rows="1" >
+					<form_script type="DataSource" language="SQL" >
+						<var name="isbn" />
+						<var name="titre" />
+						<var name="editeur_id" type="4" />
+						<var name="date_publication" type="91" />
+						<var name="description_id" type="4" />
+						<var name="langue" />
+						<script ><![CDATA[SELECT * FROM livre]]></script>
+					</form_script>
+					<cell type="label" name="isbn" pos="0,0,0,0,c,c" />
+					<cell type="label" name="titre" pos="1,0,1,0,c,c" />
+					<cell type="label" name="editeur_id" pos="2,0,2,0,c,c" />
+					<cell type="label" name="date_publication" pos="3,0,3,0,c,c" />
+					<cell type="label" name="description_id" pos="4,0,4,0,c,c" />
+					<cell type="label" name="langue" pos="5,0,5,0,c,c" />
+					<cell type="label" name="Button can open other pages." pos="6,0,6,0,c,c" />
+					<cell type="label" name="${isbn}" template="Plain" pos="0,1,0,1,l,c" />
+					<cell type="label" name="${titre}" template="Plain" pos="1,1,1,1,l,c" />
+					<cell type="label" name="${editeur_id}" template="Plain" pos="2,1,2,1,l,c" />
+					<cell type="label" name="${date_publication}" template="Plain" pos="3,1,3,1,l,c" />
+					<cell type="label" name="${description_id}" template="Plain" pos="4,1,4,1,l,c" />
+					<cell type="label" name="${langue}" template="Plain" pos="5,1,5,1,l,c" />
+					<cell type="button" name="More" template="Plain" css="btn btn-default btn-success" pos="6,1,6,1,c,c" ref_id="Report-bad" />
+				</tableview>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="0,3,0,3,l,c" glyph="FA-ANGLE_DOUBLE_LEFT" ref_id="Report-bad" >
+					<var name="samplePageNumber" value="0" />
+				</cell>
+				<cell type="href" name="" disabled="${samplePageNumber&lt;1}" pos="1,3,1,3,l,c" glyph="FA-ANGLE_LEFT" ref_id="Report-bad" >
+					<var name="samplePageNumber" value="${Math.max(0,samplePageNumber-1)}" />
+				</cell>
+				<cell type="label" name="Page ${samplePageNumber+1}" pos="2,3,2,3,l,c" />
+				<cell type="href" name="" disabled="${!sampleHasNextPage}" pos="3,3,3,3,l,c" glyph="FA-ANGLE_RIGHT" ref_id="Report-bad" >
+					<var name="samplePageNumber" value="${( samplePageNumber+1 )}" />
+				</cell>
+			</body>
+		</form>
+	</layout>
+</project>

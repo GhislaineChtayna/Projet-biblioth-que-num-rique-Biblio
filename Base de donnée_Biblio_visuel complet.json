@@ -1,0 +1,18 @@
+type,name,tbl_name,rootpage,sql
+table,genre,genre,2,CREATE TABLE genre (nom VARCHAR (20) PRIMARY KEY CONSTRAINT PK NOT NULL)
+index,sqlite_autoindex_genre_1,genre,3,NULL
+table,auteur,auteur,5,"CREATE TABLE auteur (id INTEGER CONSTRAINT PK NOT NULL PRIMARY KEY, nom VARCHAR (100) NOT NULL, prenom VARCHAR (100) NOT NULL)"
+table,editeur,editeur,7,"CREATE TABLE editeur (id INTEGER CONSTRAINT PK NOT NULL PRIMARY KEY, nom VARCHAR (100) NOT NULL)"
+table,langue,langue,8,CREATE TABLE langue (nom VARCHAR (50) PRIMARY KEY CONSTRAINT PK NOT NULL)
+index,sqlite_autoindex_langue_1,langue,9,NULL
+table,paragraphe,paragraphe,11,"CREATE TABLE paragraphe (description_id INTEGER CONSTRAINT PFK NOT NULL REFERENCES description (id), ordre INTEGER CONSTRAINT PK NOT NULL, texte VARCHAR NOT NULL)"
+table,bibliothèque,bibliothèque,12,CREATE TABLE bibliothèque (nom VARCHAR (50) PRIMARY KEY CONSTRAINT PK NOT NULL)
+index,sqlite_autoindex_bibliothèque_1,bibliothèque,13,NULL
+table,utilisateur,utilisateur,16,"CREATE TABLE utilisateur (id INTEGER PRIMARY KEY CONSTRAINT PK NOT NULL, email VARCHAR (100) CONSTRAINT AK NOT NULL, nom VARCHAR (100) NOT NULL, prenom VARCHAR (100), mdp VARCHAR (100) NOT NULL, sel VARCHAR (20) NOT NULL)"
+table,livre_auteur,livre_auteur,6,"CREATE TABLE livre_auteur (isbn VARCHAR (20) CONSTRAINT PFK NOT NULL REFERENCES livre (isbn), auteur_id INTEGER CONSTRAINT PFK NOT NULL REFERENCES auteur (id))"
+table,livre_genre,livre_genre,4,"CREATE TABLE livre_genre (isbn VARCHAR (20) CONSTRAINT PFK NOT NULL REFERENCES livre (isbn), nom VARCHAR (20) CONSTRAINT PFK NOT NULL REFERENCES genre (nom))"
+table,livre,livre,17,"CREATE TABLE livre (isbn VARCHAR (20) PRIMARY KEY CONSTRAINT PK NOT NULL, titre VARCHAR (100) NOT NULL, editeur_id INTEGER CONSTRAINT FK NOT NULL REFERENCES editeur (id), date_publication DATE NOT NULL, description_id INTEGER CONSTRAINT FK NOT NULL REFERENCES description (id), langue VARCHAR (50) CONSTRAINT FK NOT NULL REFERENCES langue (nom))"
+index,sqlite_autoindex_livre_1,livre,18,NULL
+table,description,description,10,"CREATE TABLE description (id INTEGER PRIMARY KEY CONSTRAINT PK NOT NULL, titre VARCHAR (100))"
+table,exemplaire,exemplaire,14,"CREATE TABLE exemplaire (ide INTEGER CONSTRAINT PK NOT NULL PRIMARY KEY, isbn VARCHAR (20) CONSTRAINT FK NOT NULL REFERENCES livre (isbn), bibliothèque VARCHAR (50) CONSTRAINT FK NOT NULL REFERENCES bibliothèque (nom))"
+table,pret,pret,15,"CREATE TABLE pret (id INTEGER CONSTRAINT PK NOT NULL PRIMARY KEY, date_debut DATE NOT NULL, date_fin VARCHAR, renouvele BOOLEAN NOT NULL, utilisateur_id INTEGER CONSTRAINT FK NOT NULL REFERENCES utilisateur (id), exemplaire_id INTEGER CONSTRAINT FK NOT NULL REFERENCES exemplaire (ide))"
